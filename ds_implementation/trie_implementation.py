@@ -1,12 +1,13 @@
 from functools import wraps
 import time
+from command_parser import command_parser
 
 
 def method_wrapper(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         print("started function: ", func.__qualname__)
-        print("args:",*args)
+        print("args:", *args)
         start = time.time()
         ret = func(*args, **kwargs)
         end = time.time() - start
@@ -16,14 +17,6 @@ def method_wrapper(func):
     return wrapper
 
 
-def wrap_methods(clas):
-    for key, val in vars(clas).items():
-        if callable(val):
-            setattr(clas, key, method_wrapper(val))
-    return clas
-
-
-# @wrap_methods
 class Trie(object):
     class Node(object):
         def __init__(self, val=None):
@@ -74,8 +67,9 @@ class Trie(object):
                 # print(c.val)
                 current = c
                 if i == length - 1:
-                    if current.isEndOfWord:
-                        return True
+                    return True if current.isEndOfWord else False
+                    # if current.isEndOfWord:
+                    #     return True
             else:
                 return False
 
@@ -95,33 +89,28 @@ class Trie(object):
             if i == length - 1:
                 return True
 
+
 # @method_wrapper
-def command_parser(trie, command, value):
-    if command == 'insert':
-        # print("command {} value {}".format(command, value))
-        return trie.insert(value[0])
-    if command == 'search':
-        # print("command {} value {}".format(command, value))
-        res = trie.search(value[0])
-        return False if not res else res
-    if command == 'startsWith':
-        # print("command {} value {}".format(command, value))
-        res = trie.startsWith(value[0])
-        return False if not res else res
-    return
+# def command_parser(trie, command, value):
+#     try:
+#         func = getattr(trie, command)
+#     except AttributeError:
+#         print('function not found')
+#         return
+#     res = func(value[0])
+#     return res
 
 
 def main():
     input_commands = ["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
     input_values = [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
     trie = Trie()
-    print("start")
     numOfCommands = len(input_commands)
     final_output = []
     for i in range(1, numOfCommands):
         final_output.append(command_parser(trie, input_commands[i], input_values[i]))
-
     print(final_output)
+
 
 if __name__ == "__main__":
     main()
