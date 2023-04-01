@@ -76,15 +76,12 @@ class Trie(object):
         :type prefix: str
         :rtype: bool
         """
-        current, length = self.head, len(prefix)
-        for i in range(length):
-            c = current.get_child(prefix[i])
-            if not c:
-                print("breaking in startWith, value: {}".format(prefix))
+        current = self.head
+        for letter in prefix:
+            current = current.get_child(letter)
+            if not current:
                 return False
-            current = c
-            if i == length - 1:
-                return True
+        return True
 
 
 def main():
