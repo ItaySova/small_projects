@@ -49,14 +49,13 @@ class Trie(object):
         :type word: str
         :rtype: None
         """
-        current, length = self.head, len(word)
-        for index, letter in enumerate(word):
+        current = self.head
+        for letter in word:
             if not current.get_child(letter):
                 current.children[letter] = self.Node(letter)
                 current.children_values.add(letter)
             current = current.get_child(letter)
-            if index == length - 1:
-                current.set_eow()
+        current.set_eow()
 
     @method_wrapper
     def search(self, word):
