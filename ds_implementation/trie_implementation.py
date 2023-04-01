@@ -31,7 +31,7 @@ class Trie(object):
             self.children_values = set()
             self.isEndOfWord = False
 
-        def get_child(self, val):  # return if exist - else false
+        def get_child(self, val):  # changed
             if self.children:
                 if val in self.children_values:
                     return self.children[val]
@@ -43,24 +43,22 @@ class Trie(object):
     def __init__(self):
         self.head = self.Node()
 
-    # @method_wrapper
+    @method_wrapper
     def insert(self, word):
         """
         :type word: str
         :rtype: None
         """
         current, length = self.head, len(word)
-        for i in range(length):
-            c = current.get_child(word[i])
-            if not c:
-                new_node = self.Node(word[i])
-                current.children[word[i]] = new_node
-                current.children_values.add(word[i])
-            current = current.get_child(word[i])
-            if i == length - 1:
+        for index, letter in enumerate(word):
+            if not current.get_child(letter):
+                current.children[letter] = self.Node(letter)
+                current.children_values.add(letter)
+            current = current.get_child(letter)
+            if index == length - 1:
                 current.set_eow()
 
-    # @method_wrapper
+    @method_wrapper
     def search(self, word):
         """
         :type word: str
@@ -76,7 +74,7 @@ class Trie(object):
             else:
                 return False
 
-    # @method_wrapper
+    @method_wrapper
     def startsWith(self, prefix):
         """
         :type prefix: str
