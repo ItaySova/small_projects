@@ -64,12 +64,9 @@ class Trie(object):
         for i in range(length):
             c = current.get_child(word[i])
             if c:
-                # print(c.val)
                 current = c
                 if i == length - 1:
                     return True if current.isEndOfWord else False
-                    # if current.isEndOfWord:
-                    #     return True
             else:
                 return False
 
@@ -88,17 +85,6 @@ class Trie(object):
             current = c
             if i == length - 1:
                 return True
-
-
-# @method_wrapper
-# def command_parser(trie, command, value):
-#     try:
-#         func = getattr(trie, command)
-#     except AttributeError:
-#         print('function not found')
-#         return
-#     res = func(value[0])
-#     return res
 
 
 def main():
