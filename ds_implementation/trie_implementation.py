@@ -63,15 +63,12 @@ class Trie(object):
         :type word: str
         :rtype: bool
         """
-        current, length = self.head, len(word)
-        for i in range(length):
-            c = current.get_child(word[i])
-            if c:
-                current = c
-                if i == length - 1:
-                    return True if current.isEndOfWord else False
-            else:
+        current = self.head
+        for letter in word:
+            current = current.get_child(letter)
+            if not current:
                 return False
+        return current.isEndOfWord
 
     @method_wrapper
     def startsWith(self, prefix):
