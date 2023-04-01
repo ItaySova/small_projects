@@ -28,11 +28,10 @@ class Trie(object):
         def __init__(self, val=None):
             self.val = val
             self.children = {}
-            self.children_values = set()
             self.isEndOfWord = False
 
         def get_child(self, val):  # changed
-            if val in self.children_values:
+            if val in self.children:
                 return self.children[val]
             return False
 
@@ -50,10 +49,9 @@ class Trie(object):
         """
         current = self.head
         for letter in word:
-            if not current.get_child(letter):
+            if letter not in current.children:
                 current.children[letter] = self.Node(letter)
-                current.children_values.add(letter)
-            current = current.get_child(letter)
+            current = current.children[letter]
         current.set_eow()
 
     @method_wrapper
@@ -64,9 +62,9 @@ class Trie(object):
         """
         current = self.head
         for letter in word:
-            current = current.get_child(letter)
-            if not current:
+            if letter not in current.children:
                 return False
+            current = current.children[letter]
         return current.isEndOfWord
 
     @method_wrapper
@@ -77,9 +75,9 @@ class Trie(object):
         """
         current = self.head
         for letter in prefix:
-            current = current.get_child(letter)
-            if not current:
+            if letter not in current.children:
                 return False
+            current = current.children[letter]
         return True
 
 
