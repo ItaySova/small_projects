@@ -32,9 +32,8 @@ class Trie(object):
             self.isEndOfWord = False
 
         def get_child(self, val):  # changed
-            if self.children:
-                if val in self.children_values:
-                    return self.children[val]
+            if val in self.children_values:
+                return self.children[val]
             return False
 
         def set_eow(self):
